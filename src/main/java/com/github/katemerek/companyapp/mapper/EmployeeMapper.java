@@ -5,16 +5,15 @@ import com.github.katemerek.companyapp.exceptions.DepartmentNotFoundException;
 import com.github.katemerek.companyapp.model.Department;
 import com.github.katemerek.companyapp.model.Employee;
 import com.github.katemerek.companyapp.repository.DepartmentRepository;
-import com.github.katemerek.companyapp.repository.EmployeeRepository;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 @Component
 public class EmployeeMapper {
-    private final EmployeeRepository employeeRepository;
     private final DepartmentRepository departmentRepository;
 
-    public EmployeeMapper(EmployeeRepository employeeRepository, DepartmentRepository departmentRepository) {
-        this.employeeRepository = employeeRepository;
+    public EmployeeMapper(DepartmentRepository departmentRepository) {
         this.departmentRepository = departmentRepository;
     }
 
@@ -29,6 +28,13 @@ public class EmployeeMapper {
         employee.setDepartment(department);
         return employee;
     }
+
+    public Employee toEmployeeForUpdate(long id, EmployeeDto employeeDto) {
+        Employee employee = toEmployee(employeeDto);
+        employee.setId(id);
+        return employee;
+    }
+
     public EmployeeDto toEmployeeDto(Employee employee) {
         return new EmployeeDto(employee.getFirstName(), employee.getLastName(), employee.getPosition(),
                 employee.getSalary(), employee.getDepartment().getId());

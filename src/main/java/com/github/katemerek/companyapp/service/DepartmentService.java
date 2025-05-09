@@ -1,41 +1,46 @@
 package com.github.katemerek.companyapp.service;
 
+import com.github.katemerek.companyapp.dto.DepartmentDto;
 import com.github.katemerek.companyapp.exceptions.DepartmentNotFoundException;
+import com.github.katemerek.companyapp.mapper.DepartmentMapper;
 import com.github.katemerek.companyapp.model.Department;
 import com.github.katemerek.companyapp.repository.DepartmentRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@Transactional(readOnly = true)
 public class DepartmentService {
     private final DepartmentRepository departmentRepository;
+    private final DepartmentMapper departmentMapper;
 
-    public DepartmentService(DepartmentRepository departmentRepository) {
+    public DepartmentService(DepartmentRepository departmentRepository, DepartmentMapper departmentMapper) {
         this.departmentRepository = departmentRepository;
+        this.departmentMapper = departmentMapper;
     }
 
-    public List<Department> getAllDepartments() {
-        return departmentRepository.findAll();
+    public List<DepartmentDto> getAllDepartments() {
+        return departmentRepository.findAll()
+                .stream()
+                .map(departmentMapper::toDepartmentDto)
+                .toList();
     }
 
-    public Optional<Department> getDepartmentById(Long id) {
-        if(!departmentRepository.existsById(id)) {
-            throw new DepartmentNotFoundException(id);
-        }
-        return departmentRepository.findById(id);
+    public DepartmentDto getDepartmentById(Long id) {
+        Department department = departmentRepository.findById(id).orElseThrow(() -> new DepartmentNotFoundException(id));
+        return departmentMapper.toDepartmentDto(department);
     }
 
     @Transactional
-    public Department createDepartment(Department department) {
-        return departmentRepository.save(department);
+    public void createDepartment(Department department) {
+        departmentRepository.save(department);
     }
 
     @Transactional
     public Department updateDepartment(Long id, Department department) {
-        if(!departmentRepository.existsById(id)) {
+        if (!departmentRepository.existsById(id)) {
             throw new DepartmentNotFoundException(id);
         }
         return departmentRepository.save(department);
@@ -43,7 +48,7 @@ public class DepartmentService {
 
     @Transactional
     public void deleteDepartment(Long id) {
-        if(!departmentRepository.existsById(id)) {
+        if (!departmentRepository.existsById(id)) {
             throw new DepartmentNotFoundException(id);
         }
         departmentRepository.deleteById(id);

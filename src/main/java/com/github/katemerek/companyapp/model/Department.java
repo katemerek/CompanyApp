@@ -23,7 +23,6 @@ public class Department {
     }
 
     public Department() {
-
     }
 
     public Long getId() {

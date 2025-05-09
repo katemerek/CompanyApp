@@ -7,9 +7,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class DepartmentMapper {
 
-    public Department toDepartment (DepartmentDto departmentDto) {
+    public Department toDepartment(DepartmentDto departmentDto) {
         Department department = new Department();
-        department.setName(department.getName());
+        department.setName(departmentDto.name());
         return department;
     }
 
