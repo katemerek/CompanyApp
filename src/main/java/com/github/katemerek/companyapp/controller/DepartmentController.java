@@ -5,7 +5,6 @@ import com.github.katemerek.companyapp.dto.DepartmentResponse;
 import com.github.katemerek.companyapp.mapper.DepartmentMapper;
 import com.github.katemerek.companyapp.model.Department;
 import com.github.katemerek.companyapp.service.DepartmentService;
-import com.github.katemerek.companyapp.service.EmployeeService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +19,7 @@ public class DepartmentController {
     private final DepartmentService departmentService;
     private final DepartmentMapper departmentMapper;
 
-    public DepartmentController(DepartmentService departmentService, EmployeeService employeeService, DepartmentMapper departmentMapper) {
+    public DepartmentController(DepartmentService departmentService, DepartmentMapper departmentMapper) {
         this.departmentService = departmentService;
         this.departmentMapper = departmentMapper;
     }

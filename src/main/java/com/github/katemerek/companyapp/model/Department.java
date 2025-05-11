@@ -10,14 +10,14 @@ public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private long id;
 
     @Size(max = 60)
     @NotNull
     @Column(name = "name")
     private String name;
 
-    public Department(Long id, String name) {
+    public Department(long id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -29,7 +29,7 @@ public class Department {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 

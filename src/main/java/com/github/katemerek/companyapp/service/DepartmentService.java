@@ -28,7 +28,7 @@ public class DepartmentService {
                 .toList();
     }
 
-    public DepartmentDto getDepartmentById(Long id) {
+    public DepartmentDto getDepartmentById(long id) {
         Department department = departmentRepository.findById(id).orElseThrow(() -> new DepartmentNotFoundException(id));
         return departmentMapper.toDepartmentDto(department);
     }
@@ -39,7 +39,7 @@ public class DepartmentService {
     }
 
     @Transactional
-    public Department updateDepartment(Long id, Department department) {
+    public Department updateDepartment(long id, Department department) {
         if (!departmentRepository.existsById(id)) {
             throw new DepartmentNotFoundException(id);
         }
@@ -47,7 +47,7 @@ public class DepartmentService {
     }
 
     @Transactional
-    public void deleteDepartment(Long id) {
+    public void deleteDepartment(long id) {
         if (!departmentRepository.existsById(id)) {
             throw new DepartmentNotFoundException(id);
         }
